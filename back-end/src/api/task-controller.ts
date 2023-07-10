@@ -1,4 +1,4 @@
-import express from "express";
+import express, {json} from "express";
 import dotenv from 'dotenv';
 import mysql, {Pool} from "promise-mysql";
 
@@ -18,3 +18,16 @@ dotenv.config();
         connectionLimit: +process.env.connection_limit!,
     });
 })();
+
+
+type Task = {
+    id: number,
+    description: string,
+    status: 'COMPLETED' | 'NOT_COMPLETED' | undefined
+}
+
+/* Get all tasks */
+router.get("/", async (req, res)=>{
+    const tasks = await pool.query("SELECT *  FROM task");
+    res.json(tasks);
+});
