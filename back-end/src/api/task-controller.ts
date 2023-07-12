@@ -57,3 +57,17 @@ router.delete("/:taskId", async (req, res)=>{
         [req.params.taskId]);
     res.sendStatus(result.affectedRows ? 204 : 404);
 });
+
+
+/* Update an existing task*/
+router.patch("/:taskId", async (req, res)=>{
+    const task = (req.body as Task);
+    task.id = +req.params.taskId;
+    if(!task.status){
+        res.sendStatus(400);
+        return
+    }
+    const result = await pool.query("UPDATE task set status=? WHERE id=?",
+        [task.status, req.params.taskId]);
+    res.sendStatus(result.affectedRows ? 204 : 404);
+});
