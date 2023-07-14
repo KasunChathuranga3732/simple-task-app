@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {HttpClient} from "@angular/common/http";
 import {Task} from "../dto/task";
 
 @Component({
@@ -8,6 +9,11 @@ import {Task} from "../dto/task";
 })
 export class TaskContainerComponent {
   taskList: Array<Task> = [];
+
+  constructor(private http: HttpClient) {
+    http.get<Array<Task>>('http://localhost:8080/app/api/v1/tasks')
+      .subscribe(taskList=> this.taskList = taskList);
+  }
 
   saveTask(txt: HTMLInputElement) {
 
