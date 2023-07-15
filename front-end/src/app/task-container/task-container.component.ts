@@ -35,6 +35,10 @@ export class TaskContainerComponent {
   }
 
   deleteTask(task: Task) {
-
+    this.http.delete(`http://localhost:8080/app/api/v1/tasks/${task.id}`)
+      .subscribe(data=>{
+        const index = this.taskList.indexOf(task);
+        this.taskList.splice(index, 1);
+      });
   }
 }
